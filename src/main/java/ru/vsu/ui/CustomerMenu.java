@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import ru.vsu.data.entity.Car;
 import ru.vsu.data.entity.Customer;
+import ru.vsu.data.entity.Sex;
 import ru.vsu.service.CarService;
 import ru.vsu.service.CustomerService;
 
@@ -34,7 +35,7 @@ public class CustomerMenu {
         int customerId = chooseCustomer();
         String fullName = chooseName();
         Date date = chooseDate();
-        String sex = chooseSex();
+        Sex sex = chooseSex();
         customerService.editCustomer(new Customer(customerId, fullName, date, sex));
         return;
     }
@@ -61,14 +62,20 @@ public class CustomerMenu {
         Car car = carService.getCar(carId);
         String fullName = chooseName();
         Date date = chooseDate();
-        String sex = chooseSex();
+        Sex sex = chooseSex();
         carService.sellCar(car, new Customer(0, fullName, date, sex));
     }
 
 
-    private String chooseSex() {
-        System.out.println("Enter sex: ");
-        return sc.nextLine().trim();
+    private Sex chooseSex() {
+        while(true) {
+            System.out.println("Enter sex: ");
+            try {
+                return Sex.valueOf(sc.nextLine().trim().toUpperCase());
+            } catch (IllegalArgumentException e) {
+                System.out.println("There are no such sex!");
+            }
+        }
     }
 
 //    private Customer.Sex chooseSex() {

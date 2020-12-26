@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import ru.vsu.data.entity.Customer;
+import ru.vsu.data.entity.Sex;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class CustomerDao implements DAO<Customer>{
                         .id(resultSet.getInt("id"))
                         .fullName(resultSet.getString("fullname"))
                         .dateOfBirth(resultSet.getDate("date_of_birth"))
-                        .sex(resultSet.getString("sex"))
+                        .sex(Sex.valueOf(resultSet.getString("sex").toUpperCase()))
                         .build());
             }
 
@@ -52,7 +53,7 @@ public class CustomerDao implements DAO<Customer>{
                                     .id(resultSet.getInt("id"))
                                     .fullName(resultSet.getString("fullname"))
                                     .dateOfBirth(resultSet.getDate("date_of_birth"))
-                                    .sex(resultSet.getString("sex"))
+                                    .sex(Sex.valueOf(resultSet.getString("sex").toUpperCase()))
                                     .build()
                     );
                 }
@@ -70,7 +71,7 @@ public class CustomerDao implements DAO<Customer>{
             int count = 1;
             preparedStatement.setString(count++, model.getFullName());
             preparedStatement.setDate(count++, model.getDateOfBirth());
-            preparedStatement.setString(count++, model.getSex());
+            preparedStatement.setString(count++, model.getSex().toString());
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
             model.setId(resultSet.getInt(1));
@@ -85,7 +86,7 @@ public class CustomerDao implements DAO<Customer>{
             int count = 1;
             preparedStatement.setString(count++, model.getFullName());
             preparedStatement.setDate(count++, model.getDateOfBirth());
-            preparedStatement.setString(count++, model.getSex());
+            preparedStatement.setString(count++, model.getSex().toString());
             preparedStatement.setInt(count++, model.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

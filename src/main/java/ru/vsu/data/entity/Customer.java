@@ -14,5 +14,5 @@ public class Customer {
     private int id;
     private String fullName;
     private Date dateOfBirth;
-    private String sex;
+    private Sex sex;
 }
