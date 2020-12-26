@@ -59,11 +59,10 @@ public class CustomerMenu {
     public void showSellCar() {
         int carId = carMenu.showCarMenu();
         Car car = carService.getCar(carId);
-        int customerId = chooseCustomer();
         String fullName = chooseName();
         Date date = chooseDate();
         String sex = chooseSex();
-        carService.sellCar(car, new Customer(customerId, fullName, date, sex));
+        carService.sellCar(car, new Customer(0, fullName, date, sex));
     }
 
 

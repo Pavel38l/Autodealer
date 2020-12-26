@@ -16,7 +16,7 @@ public class CustomerDao implements DAO<Customer>{
     private ConnectionBuilder connectionBuilder;
     private static final String SELECT_ALL = "select id, fullname, date_of_birth, sex from customer";
     private static final String SELECT_ID = "select id, fullname, date_of_birth, sex from customer where id=?";
-    private static final String INSERT = "insert into customer (id, fullname, date_of_birth, sex) values(?, ?, ?, ?)";
+    private static final String INSERT = "insert into customer (fullname, date_of_birth, sex) values(?, ?, ?) returning id";
     private static final String UPDATE = "update customer set fullname=?, date_of_birth=?, sex=? where id=?";
     private static final String DELETE = "delete from customer where id=?";
 
@@ -68,11 +68,12 @@ public class CustomerDao implements DAO<Customer>{
         try (PreparedStatement preparedStatement = connectionBuilder.getConnection().prepareStatement(INSERT)
         ){
             int count = 1;
-            preparedStatement.setInt(count++, model.getId());
             preparedStatement.setString(count++, model.getFullName());
             preparedStatement.setDate(count++, model.getDateOfBirth());
             preparedStatement.setString(count++, model.getSex());
-            preparedStatement.executeUpdate();
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            model.setId(resultSet.getInt(1));
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

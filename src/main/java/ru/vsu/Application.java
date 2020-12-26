@@ -16,17 +16,6 @@ import java.util.List;
 
 public class Application {
     public void run() {
-//        DAO<Customer> customerDAO = new CustomerDao(new SimpleConnectionBuilder());
-//        DAO<Car> carDAO = new CarDAO(new SimpleConnectionBuilder());
-//        Customer c = new Customer(3, "Anton", Date.valueOf("2001-01-01"), "male");
-//        //customerDAO.create(c);
-//        //carDAO.create(new Car(-1, "Lada", "Vesta", c));
-//        carDAO.update(new Car(2, "Light", "Lada", "Granta", c));
-//        List<Car> cars = carDAO.getAll();
-//        cars.forEach(System.out::println);
-
-
-
         ConnectionBuilder connectionBuilder = new SimpleConnectionBuilder();
         DAO<Customer> customerDAO = new CustomerDao(connectionBuilder);
         DAO<Car> carDAO = new CarDAO(connectionBuilder), soldCarDAO = new SoldCarDAO(connectionBuilder, customerDAO);
@@ -48,5 +37,9 @@ public class Application {
                 .printer(new Printer())
                 .build();
         menu.show();
+    }
+
+    private void initDataBase(CarService carService, CustomerService customerService) {
+
     }
 }
