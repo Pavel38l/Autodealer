@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.vsu.data.entity.Car;
+import ru.vsu.data.entity.CarType;
 import ru.vsu.data.entity.Customer;
 
 import java.sql.PreparedStatement;
@@ -35,7 +36,7 @@ public class CarDAO implements DAO<Car> {
             while (resultSet.next()) {
                 return Optional.of(Car.builder()
                         .id(resultSet.getInt("id"))
-                        .carType(resultSet.getString("car_type"))
+                        .carType(CarType.valueOf(resultSet.getString("car_type").toUpperCase()))
                         .brand(resultSet.getString("brand"))
                         .model(resultSet.getString("model"))
                         .customer(null)
@@ -58,7 +59,7 @@ public class CarDAO implements DAO<Car> {
                     result.add(
                             Car.builder()
                                     .id(resultSet.getInt("id"))
-                                    .carType(resultSet.getString("car_type"))
+                                    .carType(CarType.valueOf(resultSet.getString("car_type").toUpperCase()))
                                     .brand(resultSet.getString("brand"))
                                     .model(resultSet.getString("model"))
                                     .customer(null)
@@ -77,7 +78,7 @@ public class CarDAO implements DAO<Car> {
         try (PreparedStatement preparedStatement = connectionBuilder.getConnection().prepareStatement(INSERT)
         ){
             int count = 1;
-            preparedStatement.setString(count++, model.getCarType());
+            preparedStatement.setString(count++, model.getCarType().toString());
             preparedStatement.setString(count++, model.getBrand());
             preparedStatement.setString(count++, model.getModel());
             preparedStatement.executeUpdate();
@@ -90,7 +91,7 @@ public class CarDAO implements DAO<Car> {
     public void update(Car model) {
         try (PreparedStatement preparedStatement = connectionBuilder.getConnection().prepareStatement(UPDATE)) {
             int count = 1;
-            preparedStatement.setString(count++, model.getCarType());
+            preparedStatement.setString(count++, model.getCarType().toString());
             preparedStatement.setString(count++, model.getBrand());
             preparedStatement.setString(count++, model.getModel());
             preparedStatement.setInt(count++, model.getId());

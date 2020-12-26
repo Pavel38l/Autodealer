@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import ru.vsu.data.entity.Car;
+import ru.vsu.data.entity.CarType;
 import ru.vsu.data.entity.Customer;
 import ru.vsu.service.CarService;
 
@@ -31,7 +32,7 @@ public class CarMenu {
 
     public void showAdd() {
         String brand = showBrandMenu();
-        String carType = showCarTypeMenu();
+        CarType carType = showCarTypeMenu();
         String model = showModelMenu();
         int size = carService.getAllCars().size();
         carService.createCar(new Car(size + 1, carType, brand, model, null));
@@ -41,7 +42,7 @@ public class CarMenu {
     public void showEdit() {
         int carId = showCarMenu();
         String brand = showBrandMenu();
-        String carType = showCarTypeMenu();
+        CarType carType = showCarTypeMenu();
         String model = showModelMenu();
         carService.editCar(carId, new Car(carId, carType, brand, model, null));
         return;
@@ -72,14 +73,14 @@ public class CarMenu {
         }
     }
 
-    private String showCarTypeMenu() {
+    private CarType showCarTypeMenu() {
         while (true) {
             System.out.println("Choose car type:");
             String answer = sc.nextLine();
-            if (answer.length() == 0) {
+            try {
+                return CarType.valueOf(answer.toUpperCase());
+            } catch(IllegalArgumentException e) {
                 System.out.println("There is no such car type! Try again!");
-            } else {
-                return answer;
             }
         }
     }

@@ -1,3 +1,5 @@
+-- PostgreSQL
+
 CREATE DATABASE test_db
     WITH 
     OWNER = postgres
